@@ -20,6 +20,7 @@ class Parser
      * Parser constructor.
      *
      * @param $pot_file
+     * @param $percentage_threshold
      */
     public function __construct($pot_file, $percentage_threshold)
     {

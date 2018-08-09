@@ -45,10 +45,12 @@ class FindSimilarity extends Command
             $parser = new Parser($potPath, $thresholdPercentage);
             $parser->parse();
             $similars = $parser->getSimilars();
-            if (empty($similars)) {
+            if (! count($similars)) {
                 $output->writeln(
-                    '<info>Yeay all strings are unique</info>'
+                    '<info>Yeay all strings are unique.</info>'
                 );
+
+                return false;
             }
 
             foreach ($similars as $similar) {
@@ -80,8 +82,11 @@ class FindSimilarity extends Command
             );
         } catch (\Exception $e) {
             $output->writeln('<error>'.$e->getMessage().'</error>');
+
+            return false;
         }
 
+        return true;
     }
 
     public static function flatten($array)
