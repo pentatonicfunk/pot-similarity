@@ -10,6 +10,7 @@
     <filter>
         <whitelist>
             <directory suffix=".php">Commands</directory>
+            <directory suffix=".php">Library</directory>
         </whitelist>
     </filter>
 

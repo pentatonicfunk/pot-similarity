@@ -49,7 +49,6 @@ class FindSimilarity extends Command
                 $output->writeln(
                     '<info>Yeay all strings are unique</info>'
                 );
-                exit(0);
             }
 
             foreach ($similars as $similar) {
@@ -83,7 +82,6 @@ class FindSimilarity extends Command
             $output->writeln('<error>'.$e->getMessage().'</error>');
         }
 
-        exit(0);
     }
 
     public static function flatten($array)
