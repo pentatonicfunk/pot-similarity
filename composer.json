@@ -1,0 +1,35 @@
+{
+  "name": "pentatonicfunk/pot-similarity",
+  "description": "One is too many string to translate",
+  "version": "0.1",
+  "type": "tools",
+  "keywords": [
+    "po",
+    "translate"
+  ],
+  "homepage": "https://kuncoro.od",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Hendrawan Kuncoro",
+      "email": "pentatonicfunk@gmail.com",
+      "homepage": "https://kuncoro.id",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^7.1.3",
+    "gettext/gettext": "4.6.0",
+    "symfony/console": "4.1.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "7.3.1",
+    "symfony/phpunit-bridge": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "PotSimilarity\\": ""
+    }
+  },
+  "minimum-stability": "dev"
+}
