@@ -7,8 +7,11 @@ php:
 - 7.1
 - 7.0
 
-# Note: Code coverage requires php-xDebug extension enabled on CI server
+before_install:
+- pyrus install pear/PHP_CodeSniffer
+- phpenv rehash
 
+# Note: Code coverage requires php-xDebug extension enabled on CI server
 install:
 # Install composer packages
 - travis_retry composer install --no-interaction --no-suggest
@@ -25,6 +28,7 @@ before_script:
 # Testing the app (see phpunit.xml) for configs, generating Code Coverage report
 script:
 - ./vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+- phpcs --standard=phpcs.ruleset.xml
 
 
 #after_script:

@@ -25,4 +25,5 @@ class TestSimilars extends TestCase
         $this->assertFalse(isset($similars[0]));
         $this->assertNull($similars[0]);
     }
+
 }
