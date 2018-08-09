@@ -31,5 +31,8 @@
       "PotSimilarity\\": ""
     }
   },
+  "bin": [
+    "pot-similarity"
+  ],
   "minimum-stability": "dev"
 }
