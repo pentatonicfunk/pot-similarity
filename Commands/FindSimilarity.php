@@ -2,6 +2,10 @@
 
 namespace PotSimilarity\Commands;
 
+ini_set('memory_limit', '1024M');
+
+use PotSimilarity\Library\Parser;
+use PotSimilarity\Library\Similar;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,20 +24,79 @@ class FindSimilarity extends Command
                 'pot_path',
                 InputArgument::REQUIRED,
                 'Path of the pot file'
+            )->addArgument(
+                'threshold_percentage',
+                InputArgument::OPTIONAL,
+                'Thresehold Percentage of similar text',
+                70
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $pot_path = $input->getArgument('pot_path');
-
+        $potPath             = $input->getArgument('pot_path');
+        $thresholdPercentage = $input->getArgument('threshold_percentage');
+        $thresholdPercentage = (float)$thresholdPercentage;
         try {
-            if (! is_readable($pot_path)) {
+            if (! is_readable($potPath)) {
                 throw new \Exception('Pot file is unreadable.');
             }
 
+            $parser = new Parser($potPath, $thresholdPercentage);
+            $parser->parse();
+            $similars = $parser->getSimilars();
+            if (empty($similars)) {
+                $output->writeln(
+                    '<info>Yeay all strings are unique</info>'
+                );
+                exit(0);
+            }
+
+            foreach ($similars as $similar) {
+                /** @var Similar $similar */
+                $output->writeln(
+                    '<comment>"'.$similar->getOriginal().'"</comment>'
+                );
+                $output->writeln(
+                    '<error>Simlilar With</error>'
+                );
+                foreach ($similar->similarWith as $similarWith) {
+                    $output->writeln(
+                        "\t".'<comment>"'.$similarWith->getOriginal()
+                        .'"</comment>'
+                    );
+                    $output->writeln(
+                        "\t\t".'<question>"'.
+                        self::flatten($similarWith->getReferences())
+                        .'"</question>'
+                    );
+                }
+                $output->writeln('');
+            }
+
+            $output->writeln(
+                '<info>Brace your self you can reduce '
+                .count($similars).' Similar Strings with '.$thresholdPercentage
+                .'% threshold</info>'
+            );
         } catch (\Exception $e) {
             $output->writeln('<error>'.$e->getMessage().'</error>');
         }
+
+        exit(0);
+    }
+
+    public static function flatten($array)
+    {
+        $string = '';
+        if (is_array($array)) {
+            foreach ($array as $arr) {
+                $string .= ' '.self::flatten($arr);
+            }
+        } else {
+            return $array;
+        }
+
+        return $string;
     }
 }
