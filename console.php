@@ -21,5 +21,5 @@ $application->add(new \PotSimilarity\Commands\FindSimilarity());
 try {
     $application->run();
 } catch (Exception $e) {
+    //error
 }
-

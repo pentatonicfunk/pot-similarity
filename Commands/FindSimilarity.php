@@ -2,8 +2,6 @@
 
 namespace PotSimilarity\Commands;
 
-ini_set('memory_limit', '1024M');
-
 use PotSimilarity\Library\Parser;
 use PotSimilarity\Library\Similar;
 use Symfony\Component\Console\Command\Command;
@@ -34,6 +32,7 @@ class FindSimilarity extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        ini_set('memory_limit', '1024M');
         $potPath             = $input->getArgument('pot_path');
         $thresholdPercentage = $input->getArgument('threshold_percentage');
         $thresholdPercentage = (float)$thresholdPercentage;

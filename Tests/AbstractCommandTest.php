@@ -10,7 +10,6 @@ class AbstractCommandTest extends TestCase
 {
     public static function runCommand($command)
     {
-        $output      = '';
         $application = new \Symfony\Component\Console\Application();
 
         $fp = tmpfile();
@@ -37,13 +36,11 @@ class AbstractCommandTest extends TestCase
 
             // Closes file stream
             fclose($fp);
-
-
         } catch (\Exception $e) {
+            return '';
         }
 
         // Returns final output
         return $output;
     }
-
 }
