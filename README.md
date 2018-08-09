@@ -2,6 +2,11 @@
 [![Build Status](https://travis-ci.org/pentatonicfunk/pot-similarity.svg?branch=master)](https://travis-ci.org/pentatonicfunk/pot-similarity) 
 [![Code Coverage](https://codecov.io/gh/pentatonicfunk/pot-similarity/branch/master/graph/badge.svg)](https://codecov.io/gh/pentatonicfunk/pot-similarity)
 
+Feeling too much string to translate ? do pre-scan with this.
+
+## Current Limitation
+- Not handling any `context`, if you use `__x()` on WordPress, take extra care on the results
+- Not handling any `plural`, if you use `__n()` on Wordpress, take extra care on the results
 
 ## Installation
     # Globally
@@ -26,5 +31,5 @@
     
 ## Troubleshoot
 
-### Memory limi
+### Memory limit
     increase memory limit

@@ -65,9 +65,11 @@ class Parser
         );
 
         foreach ($items as $key => $item) {
+            $a = trim(strtolower($similar->getOriginal()));
+            $b = trim(strtolower($item->getOriginal()));
             similar_text(
-                $similar->getOriginal(),
-                $item->getOriginal(),
+                $a,
+                $b,
                 $percent
             );
 
