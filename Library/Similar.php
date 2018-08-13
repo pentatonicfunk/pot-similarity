@@ -7,18 +7,31 @@ use Gettext\Translation;
 class Similar extends Translation
 {
     /**
-     * @var Translation[]
+     * @var SimilarWith[]
      */
-    public $similarWith = array();
+    public $similarWiths = array();
 
     public function __construct(
-        $context,
-        $original,
-        $plural,
-        $similarWith
-        = array()
+        string $context,
+        string $original,
+        string $plural = ''
     ) {
         parent::__construct($context, $original, $plural);
-        $this->similarWith = $similarWith;
+    }
+
+    public function addSimilarityWith(
+        Translation $translation,
+        float $percentSimilarity
+    ) {
+        $similarityWith = new SimilarWith(
+            $translation->getContext(),
+            $translation->getOriginal(),
+            $translation->getPlural()
+        );
+        $similarityWith->mergeWith($translation);
+
+        $similarityWith->similarityPercentage = $percentSimilarity;
+
+        $this->similarWiths[] = $similarityWith;
     }
 }

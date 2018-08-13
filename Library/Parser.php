@@ -41,7 +41,9 @@ class Parser
         }
 
         $this->similars = new Similars();
-        $this->findSimilar($items);
+        while (! empty($items)) {
+            $this->findSimilar($items);
+        }
     }
 
     /**
@@ -50,20 +52,16 @@ class Parser
      *
      * @return bool
      */
-    public function findSimilar($items)
+    public function findSimilar(&$items)
     {
-        if (empty($items)) {
-            return false;
-        }
-
         $compare = array_shift($items);
 
         $similar = new Similar(
             $compare->getContext(),
             $compare->getOriginal(),
-            $compare->getPlural(),
-            array()
+            $compare->getPlural()
         );
+        $similar->mergeWith($compare);
 
         foreach ($items as $key => $item) {
             $a = trim(strtolower($similar->getOriginal()));
@@ -75,19 +73,18 @@ class Parser
             );
 
             if ($percent >= $this->percentage_threshold) {
-                $similar->similarWith[] = $item;
+                $similar->addSimilarityWith($item, $percent);
                 unset($items[$key]);
             }
         }
 
-        if (! empty($similar->similarWith)) {
+        if (! empty($similar->similarWiths)) {
             $this->similars[] = $similar;
         }
 
         $items = array_values($items);
 
-
-        return $this->findSimilar($items);
+        return true;
     }
 
     public function getSimilars(): Similars

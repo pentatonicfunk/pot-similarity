@@ -57,19 +57,24 @@ class FindSimilarity extends Command
                 $output->writeln(
                     '<comment>"'.$similar->getOriginal().'"</comment>'
                 );
+                self::writeReferences(
+                    $output,
+                    $similar->getReferences()
+                );
                 $output->writeln(
                     '<error>Simlilar With</error>'
                 );
-                foreach ($similar->similarWith as $similarWith) {
+                foreach ($similar->similarWiths as $similarWith) {
                     $output->writeln(
-                        "\t".'<comment>"'.$similarWith->getOriginal()
-                        .'"</comment>'
+                        "\t".'<comment>"'.$similarWith->getOriginal().'"'
+                        ."\t".'['.round($similarWith->similarityPercentage, 2)
+                        .'%]</comment>'
                     );
-                    $output->writeln(
-                        "\t\t".'<question>"'.
-                        self::flatten($similarWith->getReferences())
-                        .'"</question>'
+                    self::writeReferences(
+                        $output,
+                        $similarWith->getReferences()
                     );
+
                 }
                 $output->writeln('');
             }
@@ -88,17 +93,14 @@ class FindSimilarity extends Command
         return true;
     }
 
-    public static function flatten($array)
+    public static function writeReferences(OutputInterface $output, $references)
     {
-        $string = '';
-        if (is_array($array)) {
-            foreach ($array as $arr) {
-                $string .= ' '.self::flatten($arr);
-            }
-        } else {
-            return $array;
+        foreach ($references as $reference) {
+            $output->writeln(
+                "\t\t".'<question>"'.
+                $reference[0].' '.$reference[1]
+                .'"</question>'
+            );
         }
-
-        return $string;
     }
 }
