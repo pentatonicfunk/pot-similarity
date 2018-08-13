@@ -74,7 +74,6 @@ class FindSimilarity extends Command
                         $output,
                         $similarWith->getReferences()
                     );
-
                 }
                 $output->writeln('');
             }
